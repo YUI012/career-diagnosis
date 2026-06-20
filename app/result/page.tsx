@@ -3,18 +3,10 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-/**
- * =========================
- * 内部コンポーネント
- * =========================
- */
 function ResultInner() {
   const params = useSearchParams();
   const answers = params.get("answers")?.split(",") || [];
 
-  // =========================
-  // スコア計算（統一）
-  // =========================
   const scoreMap = {
     SES: 0,
     SIER: 0,
@@ -32,9 +24,6 @@ function ResultInner() {
   const percent = (v: number) =>
     total === 0 ? 0 : Math.round((v / total) * 100);
 
-  // =========================
-  // 判定ロジック
-  // =========================
   const result =
     scoreMap.SES >= scoreMap.SIER && scoreMap.SES >= scoreMap.IN_HOUSE
       ? "SES"
@@ -42,9 +31,6 @@ function ResultInner() {
       ? "SIER"
       : "IN_HOUSE";
 
-  // =========================
-  // 表示データ
-  // =========================
   const data: Record<string, any> = {
     SES: {
       title: "SES適性：スキル成長型",
@@ -70,9 +56,17 @@ function ResultInner() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-      <h1 className="text-2xl font-bold mb-4">{r.title}</h1>
 
-      <p className="text-gray-600 mb-6">{r.desc}</p>
+      <h1 className="text-2xl font-bold mb-2">{r.title}</h1>
+
+      <p className="text-600 font-bold mb-2">{r.desc}</p>
+
+      {/* ★追加：診断注意書き */}
+      <p className="text-xs text-gray-400 mb-6 max-w-md leading-relaxed">
+        ※本診断はあくまで簡易的な適性チェックであり、
+        実際のキャリア選択や適性を保証するものではありません。
+        参考情報としてご活用ください。
+      </p>
 
       {/* バー */}
       <div className="w-full max-w-md mb-6 space-y-4">
@@ -98,11 +92,6 @@ function ResultInner() {
   );
 }
 
-/**
- * =========================
- * Suspenseラッパー（Vercel対策）
- * =========================
- */
 export default function ResultPage() {
   return (
     <Suspense fallback={<div>loading...</div>}>
@@ -111,11 +100,6 @@ export default function ResultPage() {
   );
 }
 
-/**
- * =========================
- * Barコンポーネント
- * =========================
- */
 function Bar({
   label,
   value,

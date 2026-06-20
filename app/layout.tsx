@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +28,43 @@ export default function RootLayout({
       lang="ja"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
-        {children}
+      <body className="h-screen overflow-hidden flex flex-col bg-white text-zinc-900">
+
+        {/* ヘッダー（修正版） */}
+        <header className="w-full bg-black px-6 py-4 flex justify-between items-center">
+          
+          <div className="font-bold text-white text-lg">
+            <Link href="/">
+              エンジニア診断
+            </Link>
+          </div>
+
+          <nav className="text-sm text-gray-300 flex gap-5">
+            <Link href="/" className="hover:text-white transition">
+              ホーム
+            </Link>
+            <Link href="/quiz" className="hover:text-white transition">
+              診断
+            </Link>
+          </nav>
+
+        </header>
+
+        {/* メイン */}
+        <main className="flex-1 flex items-center justify-center p-6 overflow-hidden">
+          <div className="w-full max-w-3xl">
+            {children}
+          </div>
+        </main>
+
+        {/* フッター（黒） */}
+        <footer className="w-full bg-black text-white text-center text-xs py-4">
+          <div>© {new Date().getFullYear()} エンジニア働き方診断</div>
+          <div className="mt-1 text-gray-400">
+            ※本サービスは情報提供を目的とした診断ツールです
+          </div>
+        </footer>
+
       </body>
     </html>
   );
