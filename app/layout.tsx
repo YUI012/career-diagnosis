@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,13 +31,29 @@ export default function RootLayout({
     >
       <body className="h-screen overflow-hidden flex flex-col bg-white text-zinc-900">
 
-        {/* ヘッダー（修正版） */}
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-5HZBSHHCVT"
+          strategy="afterInteractive"
+        />
+
+        <Script id="ga-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-5HZBSHHCVT', {
+              page_path: window.location.pathname
+            });
+          `}
+        </Script>
+
+        {/* ヘッダー */}
         <header className="w-full bg-black px-6 py-4 flex justify-between items-center">
           
           <div className="font-bold text-white text-lg">
-            <Link href="/">
-              エンジニア診断
-            </Link>
+            <Link href="/">エンジニア診断</Link>
           </div>
 
           <nav className="text-sm text-gray-300 flex gap-5">
@@ -57,12 +74,21 @@ export default function RootLayout({
           </div>
         </main>
 
-        {/* フッター（黒） */}
+        {/* フッター（改善版） */}
         <footer className="w-full bg-black text-white text-center text-xs py-4">
+
           <div>© {new Date().getFullYear()} エンジニア働き方診断</div>
-          <div className="mt-1 text-gray-400">
+
+          <div className="mt-1 text-gray-400 space-x-3">
+            <Link href="/privacy" className="hover:text-white transition">
+              プライバシーポリシー
+            </Link>
+          </div>
+
+          <div className="mt-1 text-gray-500">
             ※本サービスは情報提供を目的とした診断ツールです
           </div>
+
         </footer>
 
       </body>
