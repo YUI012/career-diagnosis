@@ -66,9 +66,9 @@ export const questions = [
     id: "q8",
     text: "一番ストレスを感じるのは？",
     options: [
-      { text: "環境が頻繁に変わること", value: "SES" },
+      { text: "環境が頻繁に変わること", value: "IN_HOUSE" },
       { text: "外部との調整が続くこと", value: "SIER" },
-      { text: "社内調整や依頼対応が多いこと", value: "IN_HOUSE" },
+      { text: "社内調整や依頼対応が多いこと", value: "SES" },
     ],
   },
 ];

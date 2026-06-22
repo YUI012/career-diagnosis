@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="ja"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="h-screen overflow-hidden flex flex-col bg-white text-zinc-900">
+      <body className="min-h-screen flex flex-col bg-white text-zinc-900">
 
         {/* Google Analytics */}
         <Script
@@ -68,7 +68,7 @@ export default function RootLayout({
         </header>
 
         {/* メイン */}
-        <main className="flex-1 flex items-center justify-center p-6 overflow-hidden">
+        <main className="flex-1 flex flex-col items-center justify-center p-6">
           <div className="w-full max-w-3xl">
             {children}
           </div>

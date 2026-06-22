@@ -1,7 +1,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { FaXTwitter } from "react-icons/fa6";
+import { Suspense, useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 function ResultInner() {
   const params = useSearchParams();
@@ -24,107 +26,203 @@ function ResultInner() {
   const percent = (v: number) =>
     total === 0 ? 0 : Math.round((v / total) * 100);
 
-  const max = Math.max(
-    scoreMap.SES,
-    scoreMap.SIER,
-    scoreMap.IN_HOUSE
-    );
-    
-    const top = Object.entries(scoreMap).filter(
-    ([_, score]) => score === max
-    );
-    
-    let result: string;
-    if (
-      scoreMap.SES >= scoreMap.SIER &&
-      scoreMap.SES >= scoreMap.IN_HOUSE
-    ) {
-      result = "SES";
-    } else if (
-      scoreMap.SIER >= scoreMap.IN_HOUSE
-    ) {
-      result = "SIER";
-    } else {
-      result = "IN_HOUSE";
-    }
+  let result: string;
+  if (
+    scoreMap.SES >= scoreMap.SIER &&
+    scoreMap.SES >= scoreMap.IN_HOUSE
+  ) {
+    result = "SES";
+  } else if (scoreMap.SIER >= scoreMap.IN_HOUSE) {
+    result = "SIER";
+  } else {
+    result = "IN_HOUSE";
+  }
 
   const data: Record<string, any> = {
     SES: {
       title: "SES適性：スキル成長型",
       desc: "現場経験を積みながらスキルアップできる環境が向いています",
       risk: "短期的にスキルは伸びますが、案件次第で環境差が大きい働き方です",
+
+      details: [
+        "担当変更や環境変化への抵抗が少ない傾向があります",
+        "新しい技術や業務に対して柔軟に適応しやすいタイプです",
+        "経験を積みながら市場価値を高めていくキャリア形成に向いています",
+      ],
+
+      reviews: [
+        "単価が上がっても給与に反映されにくいという声があります",
+        "案件によってキャリア形成が左右されるという不安があります",
+        "配属先による当たり外れが大きいと感じるケースがあります",
+        "評価基準が不透明で納得感が得られにくいという意見があります",
+      ],
+
       adCode: `
-<a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I2XN5" rel="nofollow">
-<img border="0" width="250" height="250" alt="" src="https://www20.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003037000&mc=1"></a>
-<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I2XN5" alt="">
+<a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I5PY9" rel="nofollow">
+<img border="0" width="300" height="250" src="https://www22.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003050000&mc=1">
+</a>
+<img border="0" width="1" height="1" src="https://www12.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I5PY9">
       `,
     },
+
     SIER: {
       title: "SIer適性：安定キャリア型",
-      desc: "大規模システム開発で安定したキャリア形成が向いています",
+      desc: "大規模システム開発や調整業務に強みを持つタイプです",
       risk: "安定性は高い一方で、技術スピードは環境に左右される傾向があります",
+
+      details: [
+        "調整やプロジェクト推進に強みを持つタイプです",
+        "組織の中で成果を出すことが得意な傾向があります",
+        "大規模システム開発との相性が良い働き方です",
+      ],
+
+      reviews: [
+        "会議や調整業務が増えて技術に触れる時間が減るという声があります",
+        "年功序列的な評価制度を感じるという意見があります",
+        "技術力よりもマネジメントが重視される場合があります",
+      ],
+
       adCode: `
-<a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I2XN5" rel="nofollow">
-<img border="0" width="250" height="250" alt="" src="https://www20.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003037000&mc=1"></a>
-<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I2XN5" alt="">
+<a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I5PY9" rel="nofollow">
+<img border="0" width="300" height="250" src="https://www22.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003050000&mc=1">
+</a>
+<img border="0" width="1" height="1" src="https://www12.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I5PY9">
       `,
     },
+
     IN_HOUSE: {
       title: "社内SE適性：バランス型",
-      desc: "働きやすさと安定を両立した環境が向いています",
+      desc: "社内システム運用や改善業務に適したタイプです",
       risk: "働きやすい反面、年収やスキル成長は環境次第になりやすいです",
+
+      details: [
+        "安定した環境で力を発揮しやすいタイプです",
+        "長期的な改善活動を継続することが得意です",
+        "組織への貢献を重視するキャリア志向です",
+      ],
+
+      reviews: [
+        "技術スタックが固定化しやすいという声があります",
+        "成長スピードに物足りなさを感じる場合があります",
+        "給与レンジが上がりにくい企業もあるという意見があります",
+      ],
+
       adCode: `
-  <a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I5PY9" rel="nofollow">
-<img border="0" width="300" height="250" alt="" src="https://www22.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003050000&mc=1"></a>
-<img border="0" width="1" height="1" src="https://www12.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I5PY9" alt="">
-  `,
+<a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I2XN5" rel="nofollow">
+<img border="0" width="250" height="250" src="https://www20.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003037000&mc=1">
+</a>
+<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I2XN5">
+      `,
     },
   };
 
-  const r = data[result] ?? data.IN_HOUSE;
+  const r = data[result];
+
+  const shareText = `
+【エンジニア働き方診断】
+
+結果：${r.title}
+
+特徴：
+${r.details[0]}
+${r.details[1]}
+${r.details[2]}
+
+あなたはどのタイプ？
+  `;
+
+  const shareUrl =
+    typeof window !== "undefined"
+      ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          shareText
+        )}&url=${encodeURIComponent(window.location.origin)}`
+      : "";
+
+  const [stats, setStats] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const { data } = await supabase.from("results").select("result");
+
+      const counts = { SES: 0, SIER: 0, IN_HOUSE: 0 };
+
+      data?.forEach((d) => {
+        counts[d.result as keyof typeof counts]++;
+      });
+
+      setStats({
+        counts,
+        total: data?.length || 0,
+      });
+    };
+
+    fetchStats();
+  }, []);
+
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+    <main className="min-h-screen bg-black text-white flex flex-col items-center p-6">
 
-      <h1 className="text-2xl font-bold mb-2">{r.title}</h1>
+      {/* タイトル */}
+      <h1 className="text-2xl font-bold mb-2">
+        エンジニア働き方診断結果
+      </h1>
 
-      <p className="text-sm font-bold mb-5 max-w-md">{r.desc}</p>
+      <p className="text-gray-400 mb-6">{r.desc}</p>
 
-      {/* ★追加：軽い不安（重要） */}
-      <p className="text-sm text-gray-500 mb-5 max-w-md">
-        {r.risk}
-      </p>
+      {/* ステータス */}
+      <div className="w-full max-w-md bg-gray-900 border border-gray-700 rounded-xl p-5 mb-6">
 
-      {/* ★診断注意書き */}
-      <p className="text-sm text-gray-500 mb-5 max-w-md">
-        ※本診断は簡易的な適性チェックです。キャリア判断の参考情報としてご利用ください。
-      </p>
+        <h2 className="font-bold mb-4">{r.title}</h2>
 
-      {/* バー */}
-      <div className="w-full max-w-md mb-6 space-y-4">
-        <Bar label="変化対応力" value={percent(scoreMap.SES)} color="bg-blue-500" />
-        <Bar label="調整推進力" value={percent(scoreMap.SIER)} color="bg-green-500" />
-        <Bar
-          label="安定志向度"
-          value={percent(scoreMap.IN_HOUSE)}
-          color="bg-purple-500"
-        />
+        <Bar label="SES適性" value={percent(scoreMap.SES)} color="bg-red-500" />
+        <Bar label="SIer適性" value={percent(scoreMap.SIER)} color="bg-blue-500" />
+        <Bar label="社内SE適性" value={percent(scoreMap.IN_HOUSE)} color="bg-green-500" />
+
       </div>
 
-      {/* CTA前の一言（超重要） */}
-      <p className="text-sm font-bold mb-3 font-medium">
-        あなたに合った働き方の求人を一度見てみてください
-      </p>
+      {/* DB */}
+      {stats && (
+        <div className="w-full max-w-md bg-gray-900 border border-gray-700 rounded-xl p-4 mb-6">
 
-      {/* CTA */}
-      <div
-        dangerouslySetInnerHTML={{
-        __html: r.adCode,
-        }}
-        />
+          <h3 className="font-bold mb-2">診断結果の分布</h3>
+
+          <p>SES：{stats.counts.SES}人</p>
+          <p>SIer：{stats.counts.SIER}人</p>
+          <p>社内SE：{stats.counts.IN_HOUSE}人</p>
+
+          <p className="mt-2 text-gray-400">
+            総数：{stats.total}人
+          </p>
+
+        </div>
+      )}
+
+      {/* 詳細 */}
+      <Section title="特徴">
+        {r.details.map((v: string) => (
+          <Item key={v}>{v}</Item>
+        ))}
+      </Section>
+
+      <Section title="転職理由（リアルな声）">
+        {r.reviews.map((v: string) => (
+          <Item key={v}>{v}</Item>
+        ))}
+      </Section>
+      {/* AD（完全維持） */}
+      <div dangerouslySetInnerHTML={{ __html: r.adCode }} />
+
+
+      {/* 共有 */}
+      <button
+        onClick={() => window.open(shareUrl, "_blank")}
+        className="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center mt-4 mb-6"
+      >
+        <FaXTwitter />
+      </button>
     </main>
   );
 }
-
 
 export default function ResultPage() {
   return (
@@ -134,6 +232,7 @@ export default function ResultPage() {
   );
 }
 
+/* UI */
 function Bar({
   label,
   value,
@@ -144,18 +243,30 @@ function Bar({
   color: string;
 }) {
   return (
-    <div className="text-left">
-      <div className="flex justify-between text-sm mb-1">
-        <span>{label}</span>
-        <span>{value}%</span>
-      </div>
-
-      <div className="w-full bg-gray-200 h-2 rounded">
-        <div
-          className={`${color} h-2 rounded transition-all`}
-          style={{ width: `${value}%` }}
-        />
+    <div className="mb-3">
+      <div className="text-sm mb-1">{label}</div>
+      <div className="h-3 bg-gray-800 rounded-full">
+        <div className={`${color} h-full`} style={{ width: `${value}%` }} />
       </div>
     </div>
   );
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="w-full max-w-md mb-5">
+      <h3 className="font-bold mb-2">{title}</h3>
+      <div className="text-sm text-gray-300 space-y-2">{children}</div>
+    </div>
+  );
+}
+
+function Item({ children }: { children: React.ReactNode }) {
+  return <div className="border-l-2 border-gray-600 pl-2">{children}</div>;
 }

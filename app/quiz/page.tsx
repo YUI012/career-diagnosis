@@ -12,30 +12,71 @@ export default function Quiz() {
 
   const q = questions[index];
 
-  const select = (value: string) => {
+
+  const select = async (value: string) => {
     const next = [...answers, value];
     setAnswers(next);
     setSelected(value);
-
-    setTimeout(() => {
+  
+    setTimeout(async () => {
       setSelected(null);
-
+  
       if (index + 1 < questions.length) {
         setIndex(index + 1);
       } else {
+        // 🔥 最後の質問ならここで保存
+  
+        const result = calcResult(next); // ← 下で定義
+  
+        try {
+          await fetch("/api/save-result", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ result }),
+          });
+        } catch (e) {
+          console.error("save error:", e);
+        }
+  
         router.push(`/result?answers=${next.join(",")}`);
       }
     }, 120);
   };
+  const calcResult = (answers: string[]) => {
+    const score = {
+      SES: 0,
+      SIER: 0,
+      IN_HOUSE: 0,
+    };
+  
+    answers.forEach((a) => {
+      if (a === "SES") score.SES++;
+      if (a === "SIER") score.SIER++;
+      if (a === "IN_HOUSE") score.IN_HOUSE++;
+    });
+  
+    if (score.SES >= score.SIER && score.SES >= score.IN_HOUSE) {
+      return "SES";
+    }
+  
+    if (score.SIER >= score.IN_HOUSE) {
+      return "SIER";
+    }
+  
+    return "IN_HOUSE";
+  };
+
   const back = () => {
     if (index === 0) return;
   
     setIndex(index - 1);
     setAnswers((prev) => prev.slice(0, -1));
   };
-  
+
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 text-center select-none">
+    <main className="fixed inset-0 flex flex-col items-center justify-center p-6 text-center">
 
       <div className="w-full max-w-md">
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+    <main className="fixed inset-0 flex flex-col items-center justify-center p-6 text-center">
 
       {/* メインタイトル */}
       <h1 className="text-4xl font-bold mb-4 leading-tight">
