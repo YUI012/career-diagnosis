@@ -137,28 +137,7 @@ ${r.details[2]}
           shareText
         )}&url=${encodeURIComponent(window.location.origin)}`
       : "";
-
-  const [stats, setStats] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      const { data } = await supabase.from("results").select("result");
-
-      const counts = { SES: 0, SIER: 0, IN_HOUSE: 0 };
-
-      data?.forEach((d) => {
-        counts[d.result as keyof typeof counts]++;
-      });
-
-      setStats({
-        counts,
-        total: data?.length || 0,
-      });
-    };
-
-    fetchStats();
-  }, []);
-
+      
   return (
     <main className="min-h-screen bg-black text-white flex flex-col items-center p-6">
 
@@ -179,23 +158,6 @@ ${r.details[2]}
         <Bar label="社内SE適性" value={percent(scoreMap.IN_HOUSE)} color="bg-green-500" />
 
       </div>
-
-      {/* DB */}
-      {stats && (
-        <div className="w-full max-w-md bg-gray-900 border border-gray-700 rounded-xl p-4 mb-6">
-
-          <h3 className="font-bold mb-2">診断結果の分布</h3>
-
-          <p>SES：{stats.counts.SES}人</p>
-          <p>SIer：{stats.counts.SIER}人</p>
-          <p>社内SE：{stats.counts.IN_HOUSE}人</p>
-
-          <p className="mt-2 text-gray-400">
-            総数：{stats.total}人
-          </p>
-
-        </div>
-      )}
 
       {/* 詳細 */}
       <Section title="特徴">
