@@ -22,14 +22,12 @@ function ResultInner() {
 
   const total = answers.length;
 
-  const sesPercent =
-    total === 0 ? 0 : Number(((scoreMap.SES / total) * 100).toFixed(1));
+  const percent = (v: number) =>
+    total === 0 ? 0 : Math.round((v / total) * 100);
 
-  const sierPercent =
-    total === 0 ? 0 : Number(((scoreMap.SIER / total) * 100).toFixed(1));
-
-  const inHousePercent =
-    total === 0 ? 0 : Number((100 - sesPercent - sierPercent).toFixed(1));
+  const sesPercent = percent(scoreMap.SES);
+  const sierPercent = percent(scoreMap.SIER);
+  const inHousePercent = percent(scoreMap.IN_HOUSE);
 
   let result: string;
 
@@ -49,7 +47,6 @@ function ResultInner() {
       label: "SES",
       title: "SES適性：スキル成長型",
       shortTitle: "スキル成長型",
-      shareLabel: "現場経験で伸びるタイプ",
       desc: "現場経験を積みながらスキルアップできる環境が向いています",
       catch: "ただし、案件ガチャや評価の不透明さには注意が必要です。",
       ctaTitle: "SESで不安がある人へ",
@@ -78,7 +75,6 @@ function ResultInner() {
       label: "SIer",
       title: "SIer適性：安定キャリア型",
       shortTitle: "安定キャリア型",
-      shareLabel: "大規模開発・調整に強いタイプ",
       desc: "大規模システム開発や調整業務に強みを持つタイプです",
       catch: "安定性はありますが、技術に触れる時間が減る可能性があります。",
       ctaTitle: "SIerで技術成長に不安がある人へ",
@@ -106,7 +102,6 @@ function ResultInner() {
       label: "社内SE",
       title: "社内SE適性：バランス型",
       shortTitle: "バランス型",
-      shareLabel: "安定環境で改善するタイプ",
       desc: "社内システム運用や改善業務に適したタイプです",
       catch: "働きやすい反面、年収や技術成長は会社選びで差が出ます。",
       ctaTitle: "社内SEに興味がある人へ",
@@ -141,23 +136,23 @@ function ResultInner() {
 
   const imageSrc = imageMap[result];
 
-  const siteUrl = "https://career-diagnosis.pages.dev";
+  const shareText = `
+【エンジニア働き方診断】
 
-  const shareText = `エンジニア働き方診断をやってみた
+結果：${r.title}
 
-結果は「${r.shortTitle}」
-${r.shareLabel}
+SES適性：${sesPercent}%
+SIer適性：${sierPercent}%
+社内SE適性：${inHousePercent}%
 
-SES・SIer・社内SEの中で
-自分に合う働き方が1分でわかる👇
-
-#エンジニア転職 #SES #社内SE`;
+あなたはどのタイプ？
+  `;
 
   const shareUrl =
     typeof window !== "undefined"
       ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(
           shareText
-        )}&url=${encodeURIComponent(siteUrl)}`
+        )}&url=${encodeURIComponent(window.location.origin)}`
       : "";
 
   return (
@@ -171,7 +166,9 @@ SES・SIer・社内SEの中で
           {r.title}
         </h1>
 
-        <p className="text-gray-400 text-sm leading-relaxed mb-6">{r.desc}</p>
+        <p className="text-gray-400 text-sm leading-relaxed mb-6">
+          {r.desc}
+        </p>
 
         <div className="bg-slate-900 border border-slate-700 rounded-2xl p-5 mb-6 shadow-lg">
           <div className="w-full aspect-[16/9] overflow-hidden rounded-xl mb-5">
@@ -189,7 +186,9 @@ SES・SIer・社内SEの中で
 
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-5 mb-6">
           <h2 className="font-bold text-lg mb-2">注意ポイント</h2>
-          <p className="text-sm text-gray-300 leading-relaxed">{r.catch}</p>
+          <p className="text-sm text-gray-300 leading-relaxed">
+            {r.catch}
+          </p>
         </div>
 
         <Section title="あなたの特徴">
@@ -249,13 +248,11 @@ function Bar({
   value: number;
   color: string;
 }) {
-  const displayValue = value.toFixed(1);
-
   return (
     <div className="mb-4">
       <div className="flex justify-between text-sm mb-1">
         <span>{label}</span>
-        <span className="font-bold">{displayValue}%</span>
+        <span className="font-bold">{value}%</span>
       </div>
 
       <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
@@ -321,7 +318,9 @@ function CompareSection({
               )}
             </div>
 
-            <p className="text-sm text-gray-300 mb-2">{value.shortTitle}</p>
+            <p className="text-sm text-gray-300 mb-2">
+              {value.shortTitle}
+            </p>
 
             <p className="text-xs text-gray-400 leading-relaxed">
               {value.desc}

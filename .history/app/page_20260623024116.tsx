@@ -32,30 +32,30 @@ export default function Home() {
         <div className="mb-3 text-left">
           <div className="flex justify-between text-sm mb-1">
             <span>SES適性</span>
-            <span>50%</span>
+            <span>72%</span>
           </div>
           <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
-            <div className="bg-red-500 h-full rounded-full w-[50%]" />
+            <div className="bg-red-500 h-full rounded-full w-[72%]" />
           </div>
         </div>
 
         <div className="mb-3 text-left">
           <div className="flex justify-between text-sm mb-1">
             <span>SIer適性</span>
-            <span>30%</span>
+            <span>48%</span>
           </div>
           <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
-            <div className="bg-blue-500 h-full rounded-full w-[30%]" />
+            <div className="bg-blue-500 h-full rounded-full w-[48%]" />
           </div>
         </div>
 
         <div className="text-left">
           <div className="flex justify-between text-sm mb-1">
             <span>社内SE適性</span>
-            <span>20%</span>
+            <span>33%</span>
           </div>
           <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
-            <div className="bg-green-500 h-full rounded-full w-[20%]" />
+            <div className="bg-green-500 h-full rounded-full w-[33%]" />
           </div>
         </div>
       </div>

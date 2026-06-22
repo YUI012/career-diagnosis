@@ -22,14 +22,12 @@ function ResultInner() {
 
   const total = answers.length;
 
-  const sesPercent =
-    total === 0 ? 0 : Number(((scoreMap.SES / total) * 100).toFixed(1));
+  const percent = (v: number) =>
+    total === 0 ? 0 : Math.round((v / total) * 100);
 
-  const sierPercent =
-    total === 0 ? 0 : Number(((scoreMap.SIER / total) * 100).toFixed(1));
-
-  const inHousePercent =
-    total === 0 ? 0 : Number((100 - sesPercent - sierPercent).toFixed(1));
+  const sesPercent = percent(scoreMap.SES);
+  const sierPercent = percent(scoreMap.SIER);
+  const inHousePercent = percent(scoreMap.IN_HOUSE);
 
   let result: string;
 
@@ -171,7 +169,9 @@ SES・SIer・社内SEの中で
           {r.title}
         </h1>
 
-        <p className="text-gray-400 text-sm leading-relaxed mb-6">{r.desc}</p>
+        <p className="text-gray-400 text-sm leading-relaxed mb-6">
+          {r.desc}
+        </p>
 
         <div className="bg-slate-900 border border-slate-700 rounded-2xl p-5 mb-6 shadow-lg">
           <div className="w-full aspect-[16/9] overflow-hidden rounded-xl mb-5">
@@ -249,13 +249,11 @@ function Bar({
   value: number;
   color: string;
 }) {
-  const displayValue = value.toFixed(1);
-
   return (
     <div className="mb-4">
       <div className="flex justify-between text-sm mb-1">
         <span>{label}</span>
-        <span className="font-bold">{displayValue}%</span>
+        <span className="font-bold">{value}%</span>
       </div>
 
       <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
