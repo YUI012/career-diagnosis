@@ -36,22 +36,31 @@ function ResultInner() {
       title: "SES適性：スキル成長型",
       desc: "現場経験を積みながらスキルアップできる環境が向いています",
       risk: "短期的にスキルは伸びますが、案件次第で環境差が大きい働き方です",
-      cta: "SES案件を見てみる",
-      link: "https://px.a8.net/xxxx",
+      adCode: `
+<a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I2XN5" rel="nofollow">
+<img border="0" width="250" height="250" alt="" src="https://www20.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003037000&mc=1"></a>
+<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I2XN5" alt="">
+      `,
     },
     SIER: {
       title: "SIer適性：安定キャリア型",
       desc: "大規模システム開発で安定したキャリア形成が向いています",
       risk: "安定性は高い一方で、技術スピードは環境に左右される傾向があります",
-      cta: "SIer求人を探す",
-      link: "https://px.a8.net/xxxx",
+      adCode: `
+<a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I2XN5" rel="nofollow">
+<img border="0" width="250" height="250" alt="" src="https://www20.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003037000&mc=1"></a>
+<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I2XN5" alt="">
+      `,
     },
     IN_HOUSE: {
       title: "社内SE適性：バランス型",
       desc: "働きやすさと安定を両立した環境が向いています",
       risk: "働きやすい反面、年収やスキル成長は環境次第になりやすいです",
-      cta: "社内SE求人を見る",
-      link: "https://px.a8.net/xxxx",
+      adCode: `
+  <a href="https://px.a8.net/svt/ejp?a8mat=4B614F+C37VZM+3IZO+I5PY9" rel="nofollow">
+<img border="0" width="300" height="250" alt="" src="https://www22.a8.net/svt/bgt?aid=260621871731&wid=001&eno=01&mid=s00000016458003050000&mc=1"></a>
+<img border="0" width="1" height="1" src="https://www12.a8.net/0.gif?a8mat=4B614F+C37VZM+3IZO+I5PY9" alt="">
+  `,
     },
   };
 
@@ -62,15 +71,15 @@ function ResultInner() {
 
       <h1 className="text-2xl font-bold mb-2">{r.title}</h1>
 
-      <p className="text-gray-700 font-bold mb-3">{r.desc}</p>
+      <p className="text-sm font-bold mb-5 max-w-md">{r.desc}</p>
 
       {/* ★追加：軽い不安（重要） */}
-      <p className="text-sm text-gray-600 mb-5 max-w-md">
+      <p className="text-sm text-gray-500 mb-5 max-w-md">
         {r.risk}
       </p>
 
       {/* ★診断注意書き */}
-      <p className="text-xs text-gray-400 mb-6 max-w-md leading-relaxed">
+      <p className="text-sm text-gray-500 mb-5 max-w-md">
         ※本診断は簡易的な適性チェックです。キャリア判断の参考情報としてご利用ください。
       </p>
 
@@ -86,20 +95,16 @@ function ResultInner() {
       </div>
 
       {/* CTA前の一言（超重要） */}
-      <p className="text-sm text-gray-800 mb-3 font-medium">
+      <p className="text-sm font-bold mb-3 font-medium">
         あなたに合った働き方の求人を一度見てみてください
       </p>
 
       {/* CTA */}
-      <a
-        href={r.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-blue-600 hover:bg-blue-700 active:scale-95 transition text-white px-6 py-3 rounded-xl"
-      >
-        {r.cta}
-      </a>
-
+      <div
+        dangerouslySetInnerHTML={{
+        __html: r.adCode,
+        }}
+        />
     </main>
   );
 }
