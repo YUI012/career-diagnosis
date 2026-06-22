@@ -24,12 +24,29 @@ function ResultInner() {
   const percent = (v: number) =>
     total === 0 ? 0 : Math.round((v / total) * 100);
 
-  const result =
-    scoreMap.SES >= scoreMap.SIER && scoreMap.SES >= scoreMap.IN_HOUSE
-      ? "SES"
-      : scoreMap.SIER >= scoreMap.IN_HOUSE
-      ? "SIER"
-      : "IN_HOUSE";
+  const max = Math.max(
+    scoreMap.SES,
+    scoreMap.SIER,
+    scoreMap.IN_HOUSE
+    );
+    
+    const top = Object.entries(scoreMap).filter(
+    ([_, score]) => score === max
+    );
+    
+    let result: string;
+    if (
+      scoreMap.SES >= scoreMap.SIER &&
+      scoreMap.SES >= scoreMap.IN_HOUSE
+    ) {
+      result = "SES";
+    } else if (
+      scoreMap.SIER >= scoreMap.IN_HOUSE
+    ) {
+      result = "SIER";
+    } else {
+      result = "IN_HOUSE";
+    }
 
   const data: Record<string, any> = {
     SES: {
@@ -65,7 +82,6 @@ function ResultInner() {
   };
 
   const r = data[result] ?? data.IN_HOUSE;
-
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
 
@@ -85,10 +101,10 @@ function ResultInner() {
 
       {/* バー */}
       <div className="w-full max-w-md mb-6 space-y-4">
-        <Bar label="SES適性" value={percent(scoreMap.SES)} color="bg-blue-500" />
-        <Bar label="SIer適性" value={percent(scoreMap.SIER)} color="bg-green-500" />
+        <Bar label="変化対応力" value={percent(scoreMap.SES)} color="bg-blue-500" />
+        <Bar label="調整推進力" value={percent(scoreMap.SIER)} color="bg-green-500" />
         <Bar
-          label="社内SE適性"
+          label="安定志向度"
           value={percent(scoreMap.IN_HOUSE)}
           color="bg-purple-500"
         />
@@ -108,6 +124,7 @@ function ResultInner() {
     </main>
   );
 }
+
 
 export default function ResultPage() {
   return (

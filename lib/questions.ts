@@ -1,47 +1,74 @@
 export const questions = [
   {
     id: "q1",
-    text: "今の働き方に一番近いものは？",
+    text: "来週から担当する仕事が変わると言われたら？",
     options: [
-      { text: "現場常駐が多い", value: "SES" },
-      { text: "自社・社内開発中心", value: "IN_HOUSE" },
-      { text: "大規模システム開発", value: "SIER" },
+      { text: "むしろワクワクする", value: "SES" },
+      { text: "まあ普通に対応する", value: "SES" },
+      { text: "かなりストレスを感じる", value: "IN_HOUSE" },
     ],
   },
   {
     id: "q2",
-    text: "残業についてどう感じる？",
+    text: "予定していた作業が急に変更されたとき",
     options: [
-      { text: "多くてもOK", value: "SES" },
-      { text: "できれば少ない方がいい", value: "SIER" },
-      { text: "絶対少ない方がいい", value: "IN_HOUSE" },
+      { text: "いつものこととして対応できる", value: "SES" },
+      { text: "状況次第なら問題ない", value: "SIER" },
+      { text: "かなりストレス", value: "IN_HOUSE" },
     ],
   },
   {
     id: "q3",
-    text: "キャリアの優先順位は？",
+    text: "「これ調整お願い」と急に依頼されたとき",
     options: [
-      { text: "スキルアップ", value: "SES" },
-      { text: "安定", value: "SIER" },
-      { text: "働きやすさ", value: "IN_HOUSE" },
+      { text: "普通に対応できる", value: "SIER" },
+      { text: "内容次第", value: "SES" },
+      { text: "できれば避けたい", value: "IN_HOUSE" },
     ],
   },
   {
     id: "q4",
-    text: "働く環境として理想は？",
+    text: "技術より会議や調整が増える働き方について",
     options: [
-      { text: "成長スピード重視", value: "SES" },
-      { text: "長期安定", value: "SIER" },
-      { text: "ワークライフバランス", value: "IN_HOUSE" },
+      { text: "問題ない・むしろ得意", value: "SIER" },
+      { text: "どちらでもいい", value: "SES" },
+      { text: "ストレスが大きい", value: "IN_HOUSE" },
     ],
   },
   {
     id: "q5",
-    text: "チーム開発のスタイルは？",
+    text: "配属や案件が会社都合で決まることについて",
     options: [
-      { text: "現場ごとに変わる環境", value: "SES" },
-      { text: "大規模チーム開発", value: "SIER" },
-      { text: "少人数・内製開発", value: "IN_HOUSE" },
+      { text: "それも経験だと思う", value: "SES" },
+      { text: "ある程度は許容できる", value: "SES" },
+      { text: "かなりストレス", value: "IN_HOUSE" },
+    ],
+  },
+  {
+    id: "q6",
+    text: "自分の成果が給与に見えにくい環境について",
+    options: [
+      { text: "あまり気にしない", value: "IN_HOUSE" },
+      { text: "多少は気になる", value: "SIER" },
+      { text: "かなり気になる", value: "SES" },
+    ],
+  },
+  {
+    id: "q7",
+    text: "5年後に今と違う仕事をしている可能性について",
+    options: [
+      { text: "むしろ歓迎", value: "SES" },
+      { text: "どちらでもいい", value: "SIER" },
+      { text: "同じ領域で働きたい", value: "IN_HOUSE" },
+    ],
+  },
+  {
+    id: "q8",
+    text: "一番ストレスを感じるのは？",
+    options: [
+      { text: "環境が頻繁に変わること", value: "SES" },
+      { text: "外部との調整が続くこと", value: "SIER" },
+      { text: "社内調整や依頼対応が多いこと", value: "IN_HOUSE" },
     ],
   },
 ];

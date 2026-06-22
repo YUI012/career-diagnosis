@@ -53,7 +53,7 @@ export default function RootLayout({
         <header className="w-full bg-black px-6 py-4 flex justify-between items-center">
           
           <div className="font-bold text-white text-lg">
-            <Link href="/">エンジニア診断</Link>
+            <Link href="/">エンジニア働き方診断</Link>
           </div>
 
           <nav className="text-sm text-gray-300 flex gap-5">
