@@ -37,7 +37,7 @@ export default function Quiz() {
   };
 
   return (
-    <main className="fixed inset-0 flex flex-col items-center justify-center p-6 text-center">
+    <div className="w-full flex flex-col items-center justify-center text-center">
 
       <div className="w-full max-w-md">
 
@@ -84,6 +84,6 @@ export default function Quiz() {
         </div>
 
       </div>
-    </main>
+    </div>
   );
 }

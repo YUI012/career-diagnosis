@@ -137,6 +137,14 @@ ${r.details[2]}
           shareText
         )}&url=${encodeURIComponent(window.location.origin)}`
       : "";
+
+
+      const imageMap: Record<string, string> = {
+        SES: "/characters/SES.png",
+        SIER: "/characters/Sier.png",
+        IN_HOUSE: "/characters/社内SE.png",
+      };
+      const imageSrc = imageMap[result];
       
   return (
     <main className="min-h-screen bg-black text-white flex flex-col items-center p-6">
@@ -145,17 +153,24 @@ ${r.details[2]}
       <h1 className="text-2xl font-bold mb-2">
         エンジニア働き方診断結果
       </h1>
-
       <p className="text-gray-400 mb-6">{r.desc}</p>
-
       {/* ステータス */}
       <div className="w-full max-w-md bg-gray-900 border border-gray-700 rounded-xl p-5 mb-6">
 
-        <h2 className="font-bold mb-4">{r.title}</h2>
+        <h2 className="text-2xl font-bold mb-2">{r.title}</h2>
+        
 
-        <Bar label="SES適性" value={percent(scoreMap.SES)} color="bg-red-500" />
-        <Bar label="SIer適性" value={percent(scoreMap.SIER)} color="bg-blue-500" />
-        <Bar label="社内SE適性" value={percent(scoreMap.IN_HOUSE)} color="bg-green-500" />
+        <div className="relative w-full h-72 flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-gray-900 to-black">
+
+        {/* キャラ画像（ここが切り替わる） */}
+        <img
+        src={imageSrc}
+        className="relative z-10 max-h-full max-w-full object-contain"
+        />
+        </div>
+        <Bar label="変化対応力" value={percent(scoreMap.SES)} color="bg-red-500" />
+        <Bar label="調整力" value={percent(scoreMap.SIER)} color="bg-blue-500" />
+        <Bar label="安定志向" value={percent(scoreMap.IN_HOUSE)} color="bg-green-500" />
 
       </div>
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="fixed inset-0 flex flex-col items-center justify-center p-6 text-center">
+    <div className="w-full flex flex-col items-center justify-center text-center">
 
       {/* メインタイトル */}
       <h1 className="text-4xl font-bold mb-4 leading-tight">
@@ -36,6 +36,6 @@ export default function Home() {
         ※診断結果はあくまで参考情報です
       </p>
 
-    </main>
+    </div>
   );
 }

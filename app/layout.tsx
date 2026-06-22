@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="ja"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-screen flex flex-col bg-white text-zinc-900">
+      <body className="h-dvh overflow-hidden bg-white text-zinc-900">
 
         {/* Google Analytics */}
         <Script
@@ -50,7 +50,7 @@ export default function RootLayout({
         </Script>
 
         {/* ヘッダー */}
-        <header className="w-full bg-black px-6 py-4 flex justify-between items-center">
+        <header className="fixed top-0 left-0 z-50 w-full bg-black px-6 py-4 flex justify-between items-center">
           
           <div className="font-bold text-white text-lg">
             <Link href="/">エンジニア働き方診断</Link>
@@ -68,14 +68,14 @@ export default function RootLayout({
         </header>
 
         {/* メイン */}
-        <main className="flex-1 flex flex-col items-center justify-center p-6">
-          <div className="w-full max-w-3xl">
+        <main className="h-dvh overflow-y-auto pt-[72px] pb-[96px] px-6">
+          <div className="w-full max-w-3xl mx-auto min-h-full flex items-center justify-center">
             {children}
           </div>
         </main>
 
         {/* フッター（改善版） */}
-        <footer className="w-full bg-black text-white text-center text-xs py-4">
+        <footer className="fixed bottom-0 left-0 z-50 w-full bg-black text-white text-center text-xs py-4">
 
           <div>© {new Date().getFullYear()} エンジニア働き方診断</div>
 
